@@ -1,36 +1,38 @@
 <template>
   <v-container>
     <v-row>
-      <img
-      style="
-      width:200px;
-      weight: 200px" 
-      src="../../assets/white.png" alt="">
-    </v-row>
-    <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-          md="3"
-        >
+      <v-col>
+        <img src="../../assets/white.png" alt="abubleble">
+      </v-col>
+      <v-col>
+        <v-row>
+          <v-col
+          cols="10"
+           >
           <v-text-field
             label="Username"
-          ></v-text-field>
-        </v-col>   
-    </v-row>
-    <v-row>
-      <v-col
-        cols="12"
-        sm="6"
-        md="3"
-        >
+            >
+          </v-text-field>
+          </v-col>  
+        </v-row>
+        <v-row>
+          <v-col
+          cols="10"
+           >
           <v-text-field
-            label="Password"
-          ></v-text-field>
-      </v-col> 
+            label="Senha"
+            >
+          </v-text-field>
+          </v-col>  
+        </v-row>
+        <v-row>
+          <v-btn>
+            Login
+          </v-btn>
+        </v-row>
+      </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script>

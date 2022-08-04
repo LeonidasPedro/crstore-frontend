@@ -13,9 +13,10 @@
           sm="6"
           md="3"
         >
-          <v-text-field
-            label="E-mail"
-          ></v-text-field>
+        <v-text-field
+          label="E-mail"
+          >
+          </v-text-field>
         </v-col>  
     </v-row>
     <v-row>

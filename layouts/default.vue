@@ -92,18 +92,23 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Endereços',
+          to: '/adresses'
         },
         {
           icon: 'mdi-account',
-          title: 'User',
+          title: 'Usuário',
           to: '/user'
         },
         {
           icon: 'mdi-food',
           title: 'Items',
           to: '/items'
+        },
+        {
+          icon: 'mdi-food',
+          title: 'Categorias',
+          to: '/categories'
         },
       ],
       miniVariant: false,
