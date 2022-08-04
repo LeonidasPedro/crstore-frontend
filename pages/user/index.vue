@@ -28,6 +28,6 @@
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'UserPage'
 }
 </script>

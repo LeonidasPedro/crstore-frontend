@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Produtos</h1>
+    <h1>Items</h1>
     <hr>
     <v-container>
       <v-row>
@@ -59,50 +59,42 @@ export default {
   name: 'ItemsPage',
   data () {
     return {
-       headers: [
+      headers: [
         {
-          text: 'Produto', //nome da coluna
+          text: 'ID', //nome da coluna
           align: 'center', //alinhamento -center, end, start
           sortable: false, //se permite ordenação dos dados por essa coluna
-          value: 'name', //é o dado que essa coluna vai receber
+          value: 'id', //é o dado que essa coluna vai receber
         },
         {
-          text: 'ID',
+          text: 'Name',
           align: 'center',
           sortable: false,
-          value: 'id',
+          value: 'name',
         },
         {
-          text: 'Preço',
+          text: 'Price',
           align: 'center',
           sortable: false,
           value: 'price',
         },
         { text: "", value: "actions" }
       ],
-      items: [],
-      categories: []
+      items: []
     }
   },
   created () { //executado toda vez que a pagina é carregada
     this.getItems()
-    this.getCategories();
   },
   methods: {
-     async getCategories () {
-      let response = await this.$axios.$get('http://localhost:3333/categories');
-      this.categories = response.data
-     console.log(this.categories);
-    },
     async getItems () {
       let response = await this.$axios.$get('http://localhost:3333/items');
       this.items = response.data
-      console.log(this.items);
-      
+      console.log(this.items.data);
     },
     async destroyItem (item) {
       try {
-        if (confirm(`Deseja deletar o registro id ${item.id} - ${item.name}?`)) {
+        if (confirm(`Deseja deletar o registro id ${item.id} - ${item.titulo}?`)) {
           let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
           this.$toast.success(response.message)
           this.getItems();
@@ -117,7 +109,6 @@ export default {
         params:{ id: item.id}
       })
     }
-  },
-
+  }
 }
 </script>

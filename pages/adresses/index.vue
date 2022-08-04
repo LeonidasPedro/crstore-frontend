@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Produtos</h1>
+    <h1>Endereços</h1>
     <hr>
     <v-container>
       <v-row>
@@ -59,51 +59,54 @@ export default {
   name: 'ItemsPage',
   data () {
     return {
-       headers: [
+      headers: [
         {
-          text: 'Produto', //nome da coluna
+          text: 'Rua', //nome da coluna
           align: 'center', //alinhamento -center, end, start
           sortable: false, //se permite ordenação dos dados por essa coluna
-          value: 'name', //é o dado que essa coluna vai receber
+          value: 'adress', //é o dado que essa coluna vai receber
         },
         {
-          text: 'ID',
+          text: 'Número',
           align: 'center',
           sortable: false,
-          value: 'id',
+          value: 'number',
         },
         {
-          text: 'Preço',
+          text: 'Bairro',
           align: 'center',
           sortable: false,
-          value: 'price',
+          value: 'district',
+        },
+        {
+          text: 'Cep',
+          align: 'center',
+          sortable: false,
+          value: 'cep',
+        },
+        {
+          text: 'Cidade',
+          align: 'center',
+          sortable: false,
+          value: 'city',
         },
         { text: "", value: "actions" }
       ],
-      items: [],
-      categories: []
+      items: []
     }
   },
   created () { //executado toda vez que a pagina é carregada
     this.getItems()
-    this.getCategories();
   },
   methods: {
-     async getCategories () {
-      let response = await this.$axios.$get('http://localhost:3333/categories');
-      this.categories = response.data
-     console.log(this.categories);
-    },
     async getItems () {
-      let response = await this.$axios.$get('http://localhost:3333/items');
+      let response = await this.$axios.$get('http://localhost:3333/adresses', { headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NTk2MzQxMzgsImV4cCI6MTY1OTY2MjkzOH0.8wYxBt7B-TstNT44DVkC5rGAj18JAsh0hodvyC7csmU` }});
       this.items = response.data
-      console.log(this.items);
-      
     },
     async destroyItem (item) {
       try {
-        if (confirm(`Deseja deletar o registro id ${item.id} - ${item.name}?`)) {
-          let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
+        if (confirm(`Deseja deletar o registro id ${item.id} - ${item.titulo}?`)) {
+          let response = await this.$axios.$post('http://localhost:3333/adresses/destroy', { id: item.id });
           this.$toast.success(response.message)
           this.getItems();
         }
@@ -117,7 +120,6 @@ export default {
         params:{ id: item.id}
       })
     }
-  },
-
+  }
 }
 </script>
