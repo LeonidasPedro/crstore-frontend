@@ -30,12 +30,6 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn
@@ -106,7 +100,7 @@ export default {
           to: '/items'
         },
         {
-          icon: 'mdi-food',
+          icon: 'mdi-food-fork-drink',
           title: 'Categorias',
           to: '/categories'
         },
@@ -114,7 +108,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Crstore'
+      title: 'Admin 😎'
     }
   }
 }

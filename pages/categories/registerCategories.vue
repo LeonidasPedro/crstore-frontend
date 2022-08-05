@@ -45,6 +45,7 @@ export default {
     return {
       valid: false,
       item: {
+        id:null,
         name: null,
       },
       items:[],
@@ -66,20 +67,28 @@ export default {
           return this.$toast.warning('Preencha todos os campos obrigatórios')
         }
         let item = {
-          name: this.item.name,
+          name: this.item.name
         }
-        await this.$axios.$post('http://localhost:3333/items/persist', item);
-        this.$toast.success('Cadastro realizado com sucesso!');
-        this.$router.push('/categories');
+         if(this.item.id === null){
+          await this.$axios.$post('http://localhost:3333/categories/persist', item);
+          this.$toast.success('Cadastro realizado com sucesso!');
+          this.$router.push('/categories');
+        }
+        await this.$axios.$post(`http://localhost:3333/categories/persist/${this.item.id}`, item);
+        console.log(this.item.id);
+          this.$toast.success('Cadastro realizado com sucesso!');
+          this.$router.push('/categories');
       } catch (error) {
         this.$toast.error('Ocorreu um erro ao realizar o cadastro!');
       }
     },
     async getCategories () {
-      this.categories = await this.$axios.$get('http://localhost:3333/categories');
-      console.log(this.categories.data);
-    }
-
+      let response = await this.$axios.$get('http://localhost:3333/categories');
+      this.items = response.data
+    },
+    async getById (id) {
+      this.item = await this.$axios.$get(`http://localhost:3333/categories/${id}`);
+    },
   }
 }
 </script>

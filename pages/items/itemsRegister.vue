@@ -100,9 +100,16 @@ export default {
           price: this.item.price,
           idCategory: this.item.idCategory,
         }
-        await this.$axios.$post('http://localhost:3333/items/persist', item);
-        this.$toast.success('Cadastro realizado com sucesso!');
-        this.$router.push('/items');
+        
+        if(this.item.id === null){
+          await this.$axios.$post('http://localhost:3333/items/persist', item);
+          this.$toast.success('Cadastro realizado com sucesso!');
+          this.$router.push('/items');
+        }
+        await this.$axios.$post(`http://localhost:3333/items/persist/${this.item.id}`, item);
+          this.$toast.success('Cadastro realizado com sucesso!');
+          this.$router.push('/items');
+        
       } catch (error) {
         this.$toast.error('Ocorreu um erro ao realizar o cadastro!');
       }
@@ -114,6 +121,7 @@ export default {
     },
      async getById (id) {
       this.item = await this.$axios.$get(`http://localhost:3333/items/${id}`);
+      console.log(this.item.id);
     },
 
   }
