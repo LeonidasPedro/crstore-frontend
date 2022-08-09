@@ -1,23 +1,11 @@
 <template>
- <v-container>
-    <v-row>
-      <v-col>
-        <img
-        style="height:200px;
-        margin-left: 40%;
-        margin-top: 40%;"
-        src="../../assets/white.png"
-        alt="bootleg_logo"
-        >
-      </v-col>
-      <v-col>
-        <v-container
+  <v-container
         style="
         height: 430px;
         width: 460px;
         background-color: #202024;
         border-radius: 1%;
-        margin-left: -20%;"
+        margin-top: 5%;"
         >
           <v-container
           style="
@@ -68,23 +56,16 @@
           Não tem uma conta?
           <a
           style="color:#ffb74d"
-          href="./register">Registre-se
+          href="/user/register">Registre-se
           </a>
         </p>
      </v-container>
-    </v-row>
-        </v-container>
-      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
 export default {
-  name: 'LoginUserPage'
+  name: 'LoginUser'
 }
 </script>
-
-<style>
-
-</style>

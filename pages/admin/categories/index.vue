@@ -8,7 +8,7 @@
           <v-btn
             large
             color="success"
-            to="/categories/registerCategories"
+            to="/admin/categories/registerCategories"
           >
             Cadastrar
             <v-icon style="margin-left: 5%">
@@ -48,6 +48,7 @@
 <script>
 export default {
   name: 'ItemsPage',
+  layout: 'admin',
   data () {
     return {
       headers: [
@@ -89,7 +90,7 @@ export default {
     },
     async editItem(item){
       this.$router.push({
-        name:'categories-registerCategories',
+        name:'admin-categories-registerCategories',
         params:{ id: item.id}
       })
     }

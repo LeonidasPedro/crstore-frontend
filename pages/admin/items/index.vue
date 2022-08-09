@@ -17,7 +17,7 @@
           <v-btn
             large
             color="success"
-            to="/items/itemsRegister"
+            to="/admin/items/itemsRegister"
           >
             Cadastrar
             <v-icon style="margin-left: 5%">
@@ -57,6 +57,7 @@
 <script>
 export default {
   name: 'ItemsPage',
+  layout:'admin',
   data () {
     return {
        headers: [
@@ -90,20 +91,18 @@ export default {
   },
   methods: {
      async getCategories () {
-      let response = await this.$axios.$get('http://localhost:3333/categories');
+      let response = await this.$api.$get('/categories');
       this.categories = response.data
-     console.log(this.categories);
     },
     async getItems () {
-      let response = await this.$axios.$get('http://localhost:3333/items');
+      let response = await this.$api.$get('/items');
       this.items = response.data
-      console.log(this.items);
       
     },
     async destroyItem (item) {
       try {
         if (confirm(`Deseja deletar o registro id ${item.id} - ${item.name}?`)) {
-          let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
+          let response = await this.$api.$post('/items/destroy', { id: item.id });
           this.$toast.success(response.message)
           this.getItems();
         }
@@ -113,7 +112,7 @@ export default {
     },
     async editItem(item){
       this.$router.push({
-        name:'items-itemsRegister',
+        name:'admin-items-itemsRegister',
         params:{ id: item.id}
       })
     }

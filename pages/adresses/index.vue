@@ -56,7 +56,7 @@
 
 <script>
 export default {
-  name: 'ItemsPage',
+  name: 'AdressesPage',
   data () {
     return {
       headers: [

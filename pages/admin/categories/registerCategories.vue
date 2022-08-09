@@ -15,33 +15,6 @@
               outlined
             />
           </v-col>
-           <v-col
-            cols="3">
-            <v-text-field
-              v-model="item.price"
-              placeholder="Valor"
-              label="Valor"
-              required
-              :rules="rule"
-              outlined
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col
-            cols="4"
-          >
-            <v-autocomplete
-              v-model="item.idCategory"
-              :items="categories.data"
-              outlined
-              label="Categoria"
-              item-text="name"
-              item-value="id"
-              required
-              :rules="rule"
-            ></v-autocomplete>
-          </v-col>
         </v-row>
       </v-container>
     </v-form>
@@ -57,7 +30,7 @@
       <v-btn
         color="error"
         large
-        to="/items"
+        to="/admin/categories"
       >
         Cancelar
       </v-btn>
@@ -68,16 +41,15 @@
 <script>
 export default {
   name: 'RegisterItemsPage',
+  layout:'admin',
   data () {
     return {
       valid: false,
       item: {
-        id: null,
+        id:null,
         name: null,
-        price: null,
-        idCategory: null
       },
-      categories: [],
+      items:[],
       rule: [
         v => !!v || 'Esse campo é obrigatório'
       ]
@@ -89,41 +61,35 @@ export default {
     }
     this.getCategories();
   },
-  methods: {
+    methods: {
     async persist () {
       try {
         if (!this.valid) {
           return this.$toast.warning('Preencha todos os campos obrigatórios')
         }
         let item = {
-          name: this.item.name,
-          price: this.item.price,
-          idCategory: this.item.idCategory,
+          name: this.item.name
         }
-        
-        if(this.item.id === null){
-          await this.$axios.$post('http://localhost:3333/items/persist', item);
+         if(this.item.id === null){
+          await this.$api.$post('/categories/persist', item);
           this.$toast.success('Cadastro realizado com sucesso!');
-          this.$router.push('/items');
+          this.$router.push('/admin/categories');
         }
-        await this.$axios.$post(`http://localhost:3333/items/persist/${this.item.id}`, item);
+        await this.$api.$post(`/categories/persist/${this.item.id}`, item);
+        console.log(this.item.id);
           this.$toast.success('Cadastro realizado com sucesso!');
-          this.$router.push('/items');
-        
+          this.$router.push('/admin/categories');
       } catch (error) {
         this.$toast.error('Ocorreu um erro ao realizar o cadastro!');
       }
     },
-
     async getCategories () {
-      this.categories = await this.$axios.$get('http://localhost:3333/categories');
-      console.log(this.categories.data);
+      let response = await this.$api.$get('/categories');
+      this.items = response.data
     },
-     async getById (id) {
-      this.item = await this.$axios.$get(`http://localhost:3333/items/${id}`);
-      console.log(this.item.id);
+    async getById (id) {
+      this.item = await this.$api.$get(`/categories/${id}`);
     },
-
   }
 }
 </script>

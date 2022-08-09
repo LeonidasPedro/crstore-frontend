@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Items</h1>
+    <h1>Cadastrar Itens</h1>
     <hr>
     <v-form v-model="valid">
       <v-container>
@@ -29,7 +29,7 @@
         </v-row>
         <v-row>
           <v-col
-            cols="4"
+            cols="3"
           >
             <v-autocomplete
               v-model="item.idCategory"
@@ -41,6 +41,16 @@
               required
               :rules="rule"
             ></v-autocomplete>
+          </v-col>
+           <v-col
+            cols="9"
+          >
+            <v-text-field
+              v-model="item.thumbnail"
+              placeholder="Link da Imagem"
+              label="Link da Imagem"
+              outlined
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -57,7 +67,7 @@
       <v-btn
         color="error"
         large
-        to="/items"
+        to="/admin/items"
       >
         Cancelar
       </v-btn>
@@ -68,6 +78,7 @@
 <script>
 export default {
   name: 'RegisterItemsPage',
+  layout: 'admin',
   data () {
     return {
       valid: false,
@@ -75,7 +86,8 @@ export default {
         id: null,
         name: null,
         price: null,
-        idCategory: null
+        idCategory: null,
+        thumbnail:null
       },
       categories: [],
       rule: [
@@ -99,21 +111,30 @@ export default {
           name: this.item.name,
           price: this.item.price,
           idCategory: this.item.idCategory,
+          thumbnail: this.item.thumbnail
         }
-        await this.$axios.$post('http://localhost:3333/items/persist', item);
-        this.$toast.success('Cadastro realizado com sucesso!');
-        this.$router.push('/items');
+        
+        if(this.item.id === null){
+          await this.$api.$post('/items/persist', item);
+          this.$toast.success('Cadastro realizado com sucesso!');
+          this.$router.push('/admin/items');
+        }
+        await this.$api.$post(`/items/persist/${this.item.id}`, item);
+          this.$toast.success('Cadastro realizado com sucesso!');
+          this.$router.push('/admin/items');
+        
       } catch (error) {
         this.$toast.error('Ocorreu um erro ao realizar o cadastro!');
       }
     },
 
     async getCategories () {
-      this.categories = await this.$axios.$get('http://localhost:3333/categories');
+      this.categories = await this.$api.$get('/categories');
       console.log(this.categories.data);
     },
      async getById (id) {
-      this.item = await this.$axios.$get(`http://localhost:3333/items/${id}`);
+      this.item = await this.$api.$get(`/items/${id}`);
+      console.log(this.item.id);
     },
 
   }
