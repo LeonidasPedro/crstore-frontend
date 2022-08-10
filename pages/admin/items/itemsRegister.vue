@@ -53,6 +53,15 @@
             />
           </v-col>
         </v-row>
+        <v-row>
+          <v-textarea
+            v-model="item.description"
+            clearable
+            clear-icon="mdi-close-circle"
+            label="Descrição"
+            value="Descrição do item"
+          ></v-textarea>
+        </v-row>
       </v-container>
     </v-form>
     <v-container>
@@ -87,7 +96,8 @@ export default {
         name: null,
         price: null,
         idCategory: null,
-        thumbnail:null
+        thumbnail:null,
+        description:null
       },
       categories: [],
       rule: [
@@ -111,7 +121,8 @@ export default {
           name: this.item.name,
           price: this.item.price,
           idCategory: this.item.idCategory,
-          thumbnail: this.item.thumbnail
+          thumbnail: this.item.thumbnail,
+          description: this.item.description
         }
         
         if(this.item.id === null){

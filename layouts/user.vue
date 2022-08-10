@@ -1,70 +1,68 @@
 <template>
-  <v-app dark>
+  <v-app id="inspire">
     <v-app-bar
       app
-      color="black"
+      color="white"
       flat
     >
-      <v-avatar
-        :color="$vuetify.breakpoint.smAndDown ? 'orange lighten-2' : 'transparent'"
-        size="32"
-      ></v-avatar>
+      <v-container class="py-0 fill-height">
+        <v-avatar
+          class="mr-10"
+          color="grey darken-1"
+          size="32"
+        ></v-avatar>
 
-      <v-tabs
-        centered
-        class="ml-n9"
-        color="orange lighten-2"
-      >
-        <v-tab
-          v-for="link in links"
+        <v-btn
+          v-for="item in items"
           :key="link"
-          change="changePage"
+          text
         >
-          {{ link }}
-        </v-tab>
-      </v-tabs>
-      
+          {{ item.title }}
+        </v-btn>
 
-      <v-avatar
-        class="hidden-sm-and-down"
-        color="orange lighten-2 shrink"
-        size="32"
-      ></v-avatar>
+        <v-spacer></v-spacer>
+
+        <v-responsive max-width="260">
+          <v-text-field
+            dense
+            flat
+            hide-details
+            rounded
+            solo-inverted
+          ></v-text-field>
+        </v-responsive>
+      </v-container>
     </v-app-bar>
-    <v-img
-    src="https://vejasp.abril.com.br/wp-content/uploads/2016/11/6430_pizzariabatepapo-12-jpg.jpeg?quality=70&strip=info&w=1000&resize=1200,800"
-    style="max-height: 300px;"
-    >
-    </v-img>
 
-    <v-main> 
+    <v-main class="grey lighten-3">
       <v-container>
-        <Nuxt />
+       <Nuxt />
       </v-container>
     </v-main>
-     <v-footer padless>
-    <v-col
-      class="text-center"
-      cols="12"
-    >
-      {{ new Date().getFullYear() }} — <strong>CRStore</strong>
-    </v-col>
-  </v-footer>
   </v-app>
 </template>
 
 <script>
   export default {
     data: () => ({
-      links: [
-        'Home',
-        'Pedidos',
-        'Login',
-        'Carrinho'
-      ],
-      async changePage(){
-
-      }
+      items:[
+        {
+          title:'Home',
+          to:'/'
+        },
+        {
+          title:'Pedidos',
+          to:'/'
+        },
+        {
+          title:'login',
+          to:'/user/'
+        },
+        {
+          title:'Carrinho',
+          to:'/'
+        }
+      ]
     }),
   }
 </script>
