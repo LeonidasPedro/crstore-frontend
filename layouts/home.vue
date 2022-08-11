@@ -70,12 +70,12 @@
     },
     methods:{
       async getCategories () {
-        let response = await this.$api.$get('/categories');
+        let response = await this.$api.get('/categories');
         this.categories = response.data
     },
      async getByCategory(){
       let id = {idCategory:this.category.id}
-      let response = await this.$api.$post(`/items/category/`, id);
+      let response = await this.$api.post(`/items/category/`, id);
       this.items = response.data
     },
     }

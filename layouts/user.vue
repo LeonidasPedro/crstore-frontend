@@ -13,24 +13,15 @@
         ></v-avatar>
 
         <v-btn
-          v-for="item in items"
-          :key="link"
+          v-for="(item, i) in items"
+          :key="i"
           text
+          :to="item.to"
         >
           {{ item.title }}
         </v-btn>
 
         <v-spacer></v-spacer>
-
-        <v-responsive max-width="260">
-          <v-text-field
-            dense
-            flat
-            hide-details
-            rounded
-            solo-inverted
-          ></v-text-field>
-        </v-responsive>
       </v-container>
     </v-app-bar>
 
@@ -52,7 +43,7 @@
         },
         {
           title:'Pedidos',
-          to:'/'
+          to:'/erro'
         },
         {
           title:'login',
@@ -60,8 +51,13 @@
         },
         {
           title:'Carrinho',
-          to:'/'
-        }
+          to:'/erro'
+        },
+        {
+          title:'Endereços',
+          to:'/adresses'
+        },
+
       ]
     }),
   }

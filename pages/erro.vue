@@ -1,7 +1,4 @@
 <template>
-<v-container>
-  <Nuxt />
-
 <div class="macbook">
   <h1>deu ruimkkkkkkkkkkkkkkkkkkkkkkk</h1>
   <div class="inner">
@@ -105,32 +102,13 @@
   </div>
   <div class="shadow"></div>
 </div>
-</v-container>
+
 </template>
 
 <script>
-export default {
-  name: 'EmptyLayout',
-  layout: 'empty',
-  props: {
-    error: {
-      type: Object,
-      default: null
-    }
-  },
-  data () {
-    return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
-    }
-  },
-  head () {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
-    return {
-      title
-    }
-  }
+export default{
+  layout:'user',
+  name:'pcPage'
 }
 </script>
 

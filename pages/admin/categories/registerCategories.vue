@@ -71,11 +71,11 @@ export default {
           name: this.item.name
         }
          if(this.item.id === null){
-          await this.$api.$post('/categories/persist', item);
+          await this.$api.post('/categories/persist', item);
           this.$toast.success('Cadastro realizado com sucesso!');
           this.$router.push('/admin/categories');
         }
-        await this.$api.$post(`/categories/persist/${this.item.id}`, item);
+        await this.$api.post(`/categories/persist/${this.item.id}`, item);
         console.log(this.item.id);
           this.$toast.success('Cadastro realizado com sucesso!');
           this.$router.push('/admin/categories');
@@ -84,11 +84,11 @@ export default {
       }
     },
     async getCategories () {
-      let response = await this.$api.$get('/categories');
+      let response = await this.$api.get('/categories');
       this.items = response.data
     },
     async getById (id) {
-      this.item = await this.$api.$get(`/categories/${id}`);
+      this.item = await this.$api.get(`/categories/${id}`);
     },
   }
 }

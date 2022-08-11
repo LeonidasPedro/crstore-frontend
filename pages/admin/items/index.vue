@@ -91,18 +91,18 @@ export default {
   },
   methods: {
      async getCategories () {
-      let response = await this.$api.$get('/categories');
+      let response = await this.$api.get('/categories');
       this.categories = response.data
     },
     async getItems () {
-      let response = await this.$api.$get('/items');
+      let response = await this.$api.get('/items');
       this.items = response.data
       
     },
     async destroyItem (item) {
       try {
         if (confirm(`Deseja deletar o registro id ${item.id} - ${item.name}?`)) {
-          let response = await this.$api.$post('/items/destroy', { id: item.id });
+          let response = await this.$api.post('/items/destroy', { id: item.id });
           this.$toast.success(response.message)
           this.getItems();
         }

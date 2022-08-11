@@ -101,24 +101,24 @@ export default {
   },
   methods: {
      async getCategories () {
-      let response = await this.$api.$get('/categories');
+      let response = await this.$api.get('/categories');
       this.categories = response.data
     },
     async getItems () {
-      let response = await this.$api.$get('/items');
+      let response = await this.$api.get('/items');
       this.items = response.data
     },
     async getByCategory(){
       let id = {
         idCategory:this.category.id
       }
-      let response = await this.$api.$post(`/items/category/`, id);
+      let response = await this.$api.post(`/items/category/`, id);
       this.items = response.data
     },
     async getById(){
       let id = this.item.id
       console.log(id);
-      let response = await this.$api.$get(`/items/${id}`, );
+      let response = await this.$api.get(`/items/${id}`, );
       this.items = []
       this.items.push(response)
     },

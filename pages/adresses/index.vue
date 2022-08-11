@@ -1,98 +1,151 @@
 <template>
   <v-container>
-    <h1>Endereços</h1>
-    <hr>
     <v-container>
       <v-row>
-        <v-col>
-          <v-btn
-            large
-            color="primary"
-            @click="getItems"
-          >
-            <v-icon style="margin-left: 5%">
-              mdi-magnify
-            </v-icon>
-          </v-btn>
-          <v-btn
-            large
-            color="success"
-            to="/items/itemsRegister"
-          >
-            Cadastrar
-            <v-icon style="margin-left: 5%">
-              mdi-plus-circle-outline
-            </v-icon>
-          </v-btn>
-        </v-col>
+        <v-col cols="12">
+            <v-card
+              class="mx-auto"
+              max-width="300"
+              tile
+            >
+              <v-list flat>
+                <v-subheader>Endereços</v-subheader>
+                <v-list-item-group
+                  v-model="selectedItem"
+                  color="orange lighten-2"
+                >
+                  <v-list-item
+                    v-for="(item, i) in items"
+                    :key="i"
+                    @click="editItem(item.id)"
+                  >
+                    <v-list-item-content>
+                      <p>{{item.adress}}, {{item.number}}, {{item.district}}, {{item.city}}</p>
+                    </v-list-item-content>
+                   <v-icon
+                    color="red"
+                    >
+                    pão
+                    </v-icon>
+                   
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-card>
+          </v-col>
       </v-row>
-    </v-container>
-    <v-container>
-      <v-data-table
-        :headers="headers"
-        :items="items"
-        :items-per-page="10"
-        class="elevation-1"
-      >
-        <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
+        <v-row justify="center">
+           <v-btn
+                rounded
+                @click="dialog = true"
+                color="#E53935"
+                dark
+              >
+                Novo Endereço
+              </v-btn>
+          <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="600px"
           >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            small
-            @click="destroyItem(item)"
-          >
-            mdi-delete
-          </v-icon>
-        </template>
-      </v-data-table>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Meu Endereço</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form v-model="valid">
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                      >
+                        <v-text-field
+                          label="Bairro"
+                          v-model="adress.district"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-text-field
+                          label="N° Residência"
+                          v-model="adress.number"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Endereço"
+                          v-model="adress.adress"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                      >
+                      <v-text-field
+                          label="Cep"
+                          v-model="adress.cep"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                      >
+                        <v-text-field
+                          label="Cidade"
+                          v-model="adress.city"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form> 
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Cancelar
+                </v-btn>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="persist(item.id)"
+                >
+                  Salvar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
     </v-container>
   </v-container>
 </template>
 
 <script>
 export default {
+  layout:'user',
   name: 'AdressesPage',
   data () {
     return {
-      headers: [
-        {
-          text: 'Rua', //nome da coluna
-          align: 'center', //alinhamento -center, end, start
-          sortable: false, //se permite ordenação dos dados por essa coluna
-          value: 'adress', //é o dado que essa coluna vai receber
-        },
-        {
-          text: 'Número',
-          align: 'center',
-          sortable: false,
-          value: 'number',
-        },
-        {
-          text: 'Bairro',
-          align: 'center',
-          sortable: false,
-          value: 'district',
-        },
-        {
-          text: 'Cep',
-          align: 'center',
-          sortable: false,
-          value: 'cep',
-        },
-        {
-          text: 'Cidade',
-          align: 'center',
-          sortable: false,
-          value: 'city',
-        },
-        { text: "", value: "actions" }
-      ],
-      items: []
+      item:{id:null},
+      valid:null,
+      dialog: false,
+      items: [],
+      selectedItem: 0,
+      adress:{
+        adress:null,
+        number:null,
+        district:null,
+        cep:null,
+        city:null
+      }
     }
   },
   created () { //executado toda vez que a pagina é carregada
@@ -100,26 +153,41 @@ export default {
   },
   methods: {
     async getItems () {
-      let response = await this.$axios.$get('http://localhost:3333/adresses', { headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NTk2MzQxMzgsImV4cCI6MTY1OTY2MjkzOH0.8wYxBt7B-TstNT44DVkC5rGAj18JAsh0hodvyC7csmU` }});
+      let response = await this.$api.get('/adresses/');
       this.items = response.data
+      console.log(this.items);
     },
-    async destroyItem (item) {
+    async editItem(id){
       try {
-        if (confirm(`Deseja deletar o registro id ${item.id} - ${item.titulo}?`)) {
-          let response = await this.$axios.$post('http://localhost:3333/adresses/destroy', { id: item.id });
-          this.$toast.success(response.message)
-          this.getItems();
-        }
+        this.item.id = id
+        let res = await this.$api.get(`/adresses/${id}`);
+        this.dialog = true;
+        this.adress = res
       } catch (error) {
-        this.$toast.error('Ocorreu um erro ao deletar o registro');
+        return this.$toast.error(`${error.message}`);
       }
     },
-    async editItem(item){
-      this.$router.push({
-        name:'items-itemsRegister',
-        params:{ id: item.id}
-      })
-    }
-  }
+    async persist(id){
+        this.dialog = false;
+        if (!this.valid) {
+          return this.$toast.warning('Preencha todos os campos obrigatórios')
+        }
+        let adress = {
+          adress:this.adress.adress,
+          number:this.adress.number,
+          district:this.adress.district,
+          cep:this.adress.cep,
+          city:this.adress.city
+        };
+        if(!id){
+          let res = await this.$api.post('/adresses/persist/', adress)
+          return 
+
+        }
+          await this.$api.post(`/adresses/persist/${id}`,adress);
+        this.getItems()
+    },
+    
+  }, 
 }
 </script>

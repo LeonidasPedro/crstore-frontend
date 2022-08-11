@@ -3,13 +3,15 @@
         style="
         height: 430px;
         width: 460px;
-        background-color: #202024;
+        background-color:#d7d7d7 ;
         border-radius: 1%;
         margin-bottom:10%"
         >
           <v-container
           style="
+          color:white;
           padding: 10%;">
+          
 
             <v-form v-model="valid">
                 <v-text-field
@@ -17,13 +19,16 @@
                       v-model="user.username"
                       placeholder="Digite seu Nome de Usuário"
                       color="#ffb74d"
+                      background-color="#d7d7d7"
                       prepend-inner-icon="mdi-email"
                       outlined
                     />
                   <v-text-field
                     label="Senha"
                     v-model="user.password"
+                    type="password"
                     placeholder="Digite sua senha"
+                    background-color="#d7d7d7"
                     color="#ffb74d"
                     prepend-inner-icon="mdi-lock"
                     outlined
@@ -36,7 +41,7 @@
               margin-left: -10px;
               margin-bottom: -30px;">
                 <a
-                style="color:#ffb74d"
+                style="color:#E53935"
                 href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Esqueci minha senha</a>
               </v-container>
             </v-container>
@@ -60,10 +65,11 @@
      style="
      text-align:center"
      >
-        <p>
+        <p
+        style="color:">
           Não tem uma conta?
           <a
-          style="color:#ffb74d"
+          style="color:#E53935"
           href="/user/register">Registre-se
           </a>
         </p>
@@ -95,7 +101,7 @@ export default {
         }
           console.log(JSON.stringify(this.user));
 
-          let response = await this.$api.$post(`/users/login`, this.user)
+          let response = await this.$api.post(`/users/login`, this.user)
 
         if (response.type == 'success'){
           localStorage.removeItem('crstore-api-token')

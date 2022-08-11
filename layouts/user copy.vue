@@ -8,16 +8,9 @@
       <v-avatar
         :color="$vuetify.breakpoint.smAndDown ? 'orange lighten-2' : 'transparent'"
         size="32"
-      ></v-avatar>
-
-      <v-container
-      centered>
-      <v-button
-      to='/index'>
-        Pão
-      </v-button>
-      </v-container>
-      
+      >
+      </v-avatar>
+        
 
       <v-avatar
         class="hidden-sm-and-down"

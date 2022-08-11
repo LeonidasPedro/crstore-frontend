@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-container style="
-        background-color: #202024;
+        background-color:#d7d7d7
         border-radius: 1%;
         margin-top: 5%;">
     <v-form v-model="valid">   
@@ -10,7 +10,7 @@
           <h2
           style="
           text-align: center;
-          color:#ffb74d;
+          color:#E53935;
           ">
             Cadastro
           </h2>
@@ -20,6 +20,7 @@
               v-model="user.email"
               placeholder="Digite seu E-mail" 
               color="#ffb74d" 
+              background-color="#d7d7d7"
               prepend-inner-icon="mdi-email"
               outlined />
             <v-text-field 
@@ -27,6 +28,7 @@
               v-model="user.name"
               placeholder="Digite seu nome" 
               color="#ffb74d" 
+              background-color="#d7d7d7"
               prepend-inner-icon="mdi-account"
               :rules="[rules.required]"
               outlined />
@@ -35,6 +37,7 @@
               v-model="user.phone"
               placeholder="Digite sua senha" 
               color="#ffb74d" 
+              background-color="#d7d7d7"
               prepend-inner-icon="mdi-phone"
               :rules="[rules.required]"
               outlined />
@@ -43,14 +46,17 @@
               v-model="user.username"
               placeholder="Digite seu nome de usuário" 
               color="#ffb74d"
+              background-color="#d7d7d7"
               prepend-inner-icon="mdi-account-box" 
               :rules="[rules.required]"
               outlined />
             <v-text-field 
               label="Senha"
               v-model="user.password"
+              type="password"
               placeholder="Digite sua senha" 
               color="#ffb74d" 
+              background-color="#d7d7d7"
               prepend-inner-icon="mdi-lock"
               :rules="[rules.required]"
               outlined />
@@ -74,7 +80,7 @@
         text-align:center">
           <p>
             Já tem uma conta?
-            <a style="color:#ffb74d" 
+            <a style="color:#E53935" 
             href="/user/">Página de Login
             </a>
           </p>
@@ -113,7 +119,7 @@ export default {
           return this.$toast.warning('Preencha todos os campos corretamente!!');
         }
         console.log(JSON.stringify(this.user));
-        let response = await this.$api.$post(`/users/register`, this.user)
+        let response = await this.$api.post(`/users/register`, this.user)
         if (response.type == 'success'){
           this.$toast.success(`Conta criada com sucesso`);
           return this.$router.push('/');

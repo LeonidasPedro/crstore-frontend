@@ -1,18 +1,14 @@
-export default function ({ $axios }, inject) {
- 
+  export default function ({ $axios }, inject) {
+    const api = $axios.create();
   
-  const token = localStorage.getItem('api-token') || '';
+    api.onRequest(() => {
+      const token = localStorage.getItem('api-token') || '';
+      api.setHeader('Authorization', `Bearer ${token}`);
+    });
   
-    const api = $axios.create({
-      headers: {
-        common: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    })
+    api.onResponse(response => response.data);
   
     api.setBaseURL('http://localhost:3333')
   
     inject('api', api)
   }
-  
