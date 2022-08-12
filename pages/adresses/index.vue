@@ -22,12 +22,6 @@
                     <v-list-item-content>
                       <p>{{item.adress}}, {{item.number}}, {{item.district}}, {{item.city}}</p>
                     </v-list-item-content>
-                   <v-icon
-                    color="red"
-                    >
-                    pão
-                    </v-icon>
-                   
                   </v-list-item>
                 </v-list-item-group>
               </v-list>
@@ -37,7 +31,9 @@
         <v-row justify="center">
            <v-btn
                 rounded
-                @click="dialog = true"
+                @click="
+                adress = {};
+                dialog= true"
                 color="#E53935"
                 dark
               >
@@ -70,6 +66,13 @@
                         <v-text-field
                           label="N° Residência"
                           v-model="adress.number"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                       <v-col cols="3">
+                        <v-text-field
+                          label="UF"
+                          v-model="adress.state"
                           required
                         ></v-text-field>
                       </v-col>
@@ -109,6 +112,15 @@
                 <v-btn
                   color="blue darken-1"
                   text
+                  @click="destroy(item.id);
+                  dialog=false"
+                  style="color:red"
+                >
+                  Excluir
+                </v-btn>
+                <v-btn
+                  color="blue darken-1"
+                  text
                   @click="dialog = false"
                 >
                   Cancelar
@@ -144,7 +156,8 @@ export default {
         number:null,
         district:null,
         cep:null,
-        city:null
+        city:null,
+        state:null
       }
     }
   },
@@ -153,9 +166,11 @@ export default {
   },
   methods: {
     async getItems () {
-      let response = await this.$api.get('/adresses/');
-      this.items = response.data
-      console.log(this.items);
+      
+        let response = await this.$api.get('/adresses');
+        this.items = []
+        this.items = response.data
+      
     },
     async editItem(id){
       try {
@@ -164,29 +179,51 @@ export default {
         this.dialog = true;
         this.adress = res
       } catch (error) {
-        return this.$toast.error(`${error.message}`);
+        return this.$toast.error(`🤌🤌 Erro: ${error.message}`);
       }
     },
     async persist(id){
-        this.dialog = false;
-        if (!this.valid) {
-          return this.$toast.warning('Preencha todos os campos obrigatórios')
+        try {
+          this.dialog = false;
+          if (!this.valid) {
+            return this.$toast.warning('Preencha todos os campos obrigatórios')
+          }
+          let adress = {
+            adress:this.adress.adress,
+            number:this.adress.number,
+            district:this.adress.district,
+            cep:this.adress.cep,
+            city:this.adress.city,
+            state:this.adress.state
+          };
+          if(!id){
+            let res = await this.$api.post('/adresses/persist/', adress)
+            if(res.type != 'success'){
+             this.getItems()
+             return this.$toast.error(`🤌🤌 Erro: ${res.message}`); 
+            }
+            this.$toast.success(`👨‍🍳 Item Cadastrado com sucesso`)
+            this.getItems()
+          }
+            let res = await this.$api.post(`/adresses/persist/${id}`,adress);
+            this.item = {}
+             if(res.type!= 'success'){
+             return this.$toast.error(`🤌🤌 Erro: ${res.message}`); 
+            }
+            this.$toast.success(`👨‍🍳 Item Cadastrado com sucesso`)
+            this.getItems()
+        } catch (error) {
+           return this.$toast.error(`🤌🤌 Erro: ${error.message}`);
         }
-        let adress = {
-          adress:this.adress.adress,
-          number:this.adress.number,
-          district:this.adress.district,
-          cep:this.adress.cep,
-          city:this.adress.city
-        };
-        if(!id){
-          let res = await this.$api.post('/adresses/persist/', adress)
-          return 
-
-        }
-          await this.$api.post(`/adresses/persist/${id}`,adress);
-        this.getItems()
     },
+    async destroy(id){
+       let res = await this.$api.post('/adresses/destroy/', {id:id})
+       if(res.type != 'success'){
+            return this.$toast.error(`🤌🤌 Erro: ${res.message}`); 
+          }
+          this.$toast.success(`👨‍🍳 Item deletado com sucesso`)
+          this.getItems()
+    }
     
   }, 
 }

@@ -126,16 +126,22 @@ export default {
         }
         
         if(this.item.id === null){
-          await this.$api.post('/items/persist', item);
-          this.$toast.success('Cadastro realizado com sucesso!');
+          let res = await this.$api.post('/items/persist', item);
+          if(res.type == 'error'){
+            return this.$toast.error(`🤌🤌 Erro: ${res.message}`); 
+          }
+          this.$toast.success(`👨‍🍳 ${res.message}`)
           this.$router.push('/admin/items');
         }
-        await this.$api.post(`/items/persist/${this.item.id}`, item);
-          this.$toast.success('Cadastro realizado com sucesso!');
+        let res = await this.$api.post(`/items/persist/${this.item.id}`, item);
+           if(res.type == 'error'){
+             return this.$toast.error(`🤌🤌 Erro: ${res.message}`); 
+            }
+          this.$toast.success(`👨‍🍳 ${res.message}`)
           this.$router.push('/admin/items');
         
       } catch (error) {
-        this.$toast.error('Ocorreu um erro ao realizar o cadastro!');
+         return this.$toast.error(`🤌🤌 Erro: ${error.message}`);
       }
     },
 

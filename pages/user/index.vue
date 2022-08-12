@@ -104,8 +104,8 @@ export default {
           let response = await this.$api.post(`/users/login`, this.user)
 
         if (response.type == 'success'){
-          localStorage.removeItem('crstore-api-token')
-          localStorage.setItem('crstore-api-token', response.token)
+          localStorage.removeItem('api-token')
+          localStorage.setItem('api-token', response.token)
           this.$toast.success(`Login feito com sucesso!`);
           return this.$router.push('/');
         }

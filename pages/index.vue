@@ -100,6 +100,7 @@ export default {
         id:null
       },
       items:[],
+      selectedItem: 0,
       categories: [],
       cart:[]
     }

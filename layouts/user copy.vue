@@ -5,25 +5,28 @@
       color="black"
       flat
     >
+    
       <v-avatar
         :color="$vuetify.breakpoint.smAndDown ? 'orange lighten-2' : 'transparent'"
         size="32"
+        src="https://cdn.vuetifyjs.com/images/john.jpg"
       >
       </v-avatar>
         
-
+      
       <v-avatar
+        src="https://cdn.vuetifyjs.com/images/john.jpg"
         class="hidden-sm-and-down"
         color="orange lighten-2 shrink"
         size="32"
       ></v-avatar>
+      
     </v-app-bar>
     <v-img
     src="https://vejasp.abril.com.br/wp-content/uploads/2016/11/6430_pizzariabatepapo-12-jpg.jpeg?quality=70&strip=info&w=1000&resize=1200,800"
     style="max-height: 300px;"
     >
     </v-img>
-
     <v-main> 
       <v-container>
         <Nuxt />
